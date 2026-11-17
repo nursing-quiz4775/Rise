@@ -564,6 +564,19 @@ body{background:var(--dbg)}
 @media (prefers-reduced-motion:reduce){.sf-card,.sf-ico svg{animation:none}}
 .sf-copy{margin-top:14px;text-align:center;font-size:12px;color:#5d5d72}
 @media print{.site-foot,#calcOv{display:none!important}}
+
+.pw{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:20px}.pw[hidden]{display:none}
+.pw-c{background:#14141d;border:1.5px solid #2b2b3a;border-radius:22px;padding:22px 18px;max-width:380px;width:100%;text-align:center;color:#fff}
+.pw-c h3{margin:0 0 6px;font-size:20px}.pw-c p{margin:6px 0;color:#c9c9d6;line-height:1.5}.pw-price{font-size:32px;font-weight:800;color:#ffd23f;margin:8px 0 2px}
+.pw-wa{display:block;margin-top:14px;padding:13px;border-radius:14px;background:#25d366;color:#04210f;font-weight:700;text-decoration:none}
+.pw-x{margin-top:10px;background:none;border:0;color:#a9a9b8;font:inherit;cursor:pointer;padding:8px}
+.adm-row{background:#14141d;border:1.5px solid #2b2b3a;border-radius:16px;padding:12px 14px;margin-top:10px;color:#fff}
+.adm-row b{display:block}.adm-row small{color:#a9a9b8;display:block;margin-top:2px}.adm-row .st{margin-top:6px;font-weight:600}.adm-row .st.on{color:#4ade80}
+.adm-btns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.adm-btns button{flex:1;padding:9px;border-radius:12px;border:1.5px solid #2b2b3a;background:#1c1c28;color:#fff;font:inherit;font-weight:600;cursor:pointer}
+.adm-btns .no{color:#ff9b9b;border-color:#5b2a2a}
+#admQ{width:100%;box-sizing:border-box;padding:13px 14px;border-radius:14px;border:1.5px solid #2b2b3a;background:#0d0d14;color:#fff;font:inherit;margin:8px 0}
+.plock .t::after{content:' 🔒'}
 </style>
 <style id="an-css">
 #start .an-btn,#start .yl-btn,#start .calc-btn,#start .book-btn{position:relative;overflow:hidden;isolation:isolate}
@@ -936,6 +949,7 @@ body{background:var(--dbg)}
       <div class="pf-row"><b>Name</b><span id="pfName2"></span></div>
       <div class="pf-row"><b>Number</b><span id="pfNum"></span></div>
       <div class="pf-row"><b>কোর্স</b><span id="pfCourse"></span></div>
+      <div class="pf-row"><b>প্রিমিয়াম</b><span id="pfPrem">ফ্রি</span></div>
     </div>
     <h2 class="pf-h">পরীক্ষার হিসাব</h2>
     <div class="stats">
@@ -953,6 +967,8 @@ body{background:var(--dbg)}
     </div>
     <h2 class="pf-h">গুরুত্বপূর্ণ পরামর্শ</h2>
     <div class="advice" id="advice"><span class="ai" id="adIco">💡</span><div class="at" id="adTxt"></div></div>
+    <button class="logout" type="button" id="premBtn" style="border-color:#7a5b00;color:#ffd23f;margin-bottom:10px">👑 প্রিমিয়াম নিন</button>
+    <button class="logout" type="button" id="adminBtn" style="display:none;border-color:#2c5b7a;color:#7dd3fc;margin-bottom:10px">🛠 Admin Panel</button>
     <button class="logout" type="button" id="logoutBtn">লগ আউট</button>
   </div>
 </main>
@@ -1130,9 +1146,27 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     <p class="an-note">টপিকে ক্লিক করলে কোন কোন সালে এসেছে দেখা যাবে</p>
   </div>
 </main>
+<main id="adminPanel" hidden>
+  <div class="wrap">
+    <a class="back" href="#" data-to="profile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Back</a>
+    <h2>Admin <em>Panel</em></h2>
+    <input id="admQ" type="search" placeholder="নাম বা মোবাইল নম্বর দিয়ে খুঁজুন" autocomplete="off">
+    <div id="admList"></div>
+  </div>
+</main>
+<div class="pw" id="pwModal" hidden>
+  <div class="pw-c">
+    <h3>👑 প্রিমিয়াম নিন</h3>
+    <p id="pwWhy"></p>
+    <div class="pw-price">৪৯৯ টাকা</div>
+    <p>৩ মাসের প্যাকেজ</p>
+    <a class="pw-wa" id="pwWa" href="#" target="_blank" rel="noopener">WhatsApp-এ যোগাযোগ করুন<br><small>01306627339</small></a>
+    <button class="pw-x" type="button" id="pwClose">বন্ধ করুন</button>
+  </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
-  var views = {anSubj:document.getElementById('anSubj'), anTopics:document.getElementById('anTopics'), pdf:document.getElementById('pdf'), books:document.getElementById('books'), home:document.getElementById('home'), course:document.getElementById('course'), start:document.getElementById('start'), profile:document.getElementById('profile'), qbSubj:document.getElementById('qbSubj'), qbGK:document.getElementById('qbGK'), qbYears:document.getElementById('qbYears'), qbExam:document.getElementById('qbExam'), qbPick:document.getElementById('qbPick'), rfPick:document.getElementById('rfPick'), search:document.getElementById('search'), pdfRead:document.getElementById('pdfRead'), spZone:document.getElementById('spZone'), spList:document.getElementById('spList'), spView:document.getElementById('spView'), pdfHub:document.getElementById('pdfHub'), qbPdfPick:document.getElementById('qbPdfPick'), nbClass:document.getElementById('nbClass'), enClass:document.getElementById('enClass'), pebPick:document.getElementById('pebPick'), pebExams:document.getElementById('pebExams'), pebList:document.getElementById('pebList'), pebRoutine:document.getElementById('pebRoutine'), unlPick:document.getElementById('unlPick'), msPage:document.getElementById('msPage'), prHub:document.getElementById('prHub'), prReport:document.getElementById('prReport'), prSubj:document.getElementById('prSubj'), prDash:document.getElementById('prDash'), spcClass:document.getElementById('spcClass'), btHub:document.getElementById('btHub'), btJoin:document.getElementById('btJoin'), btLobby:document.getElementById('btLobby'), rgPlay:document.getElementById('rgPlay')};
+  var views = {adminPanel:document.getElementById('adminPanel'), anSubj:document.getElementById('anSubj'), anTopics:document.getElementById('anTopics'), pdf:document.getElementById('pdf'), books:document.getElementById('books'), home:document.getElementById('home'), course:document.getElementById('course'), start:document.getElementById('start'), profile:document.getElementById('profile'), qbSubj:document.getElementById('qbSubj'), qbGK:document.getElementById('qbGK'), qbYears:document.getElementById('qbYears'), qbExam:document.getElementById('qbExam'), qbPick:document.getElementById('qbPick'), rfPick:document.getElementById('rfPick'), search:document.getElementById('search'), pdfRead:document.getElementById('pdfRead'), spZone:document.getElementById('spZone'), spList:document.getElementById('spList'), spView:document.getElementById('spView'), pdfHub:document.getElementById('pdfHub'), qbPdfPick:document.getElementById('qbPdfPick'), nbClass:document.getElementById('nbClass'), enClass:document.getElementById('enClass'), pebPick:document.getElementById('pebPick'), pebExams:document.getElementById('pebExams'), pebList:document.getElementById('pebList'), pebRoutine:document.getElementById('pebRoutine'), unlPick:document.getElementById('unlPick'), msPage:document.getElementById('msPage'), prHub:document.getElementById('prHub'), prReport:document.getElementById('prReport'), prSubj:document.getElementById('prSubj'), prDash:document.getElementById('prDash'), spcClass:document.getElementById('spcClass'), btHub:document.getElementById('btHub'), btJoin:document.getElementById('btJoin'), btLobby:document.getElementById('btLobby'), rgPlay:document.getElementById('rgPlay')};
   var current = 'home', prev = 'home', afterLogin = 'start', pickedCourse = '';
   var mem = {};
   function get(k, d){
@@ -1178,7 +1212,86 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
   function sbClearLocal(){
     sbUid = null;
     localNrKeys().forEach(function(k){ delete mem[k]; try { localStorage.removeItem(k); } catch(e){} });
+    PROF = null; try { localStorage.removeItem('nrp_prof'); } catch(e){}
   }
+  /* ---- Premium / Admin ---- */
+  var PROF = null;
+  try { PROF = JSON.parse(localStorage.getItem('nrp_prof') || 'null'); } catch(e){}
+  function isAdm(){ return !!(PROF && PROF.is_admin); }
+  function isPrem(){ return isAdm() || !!(PROF && PROF.premium_until && new Date(PROF.premium_until) > new Date()); }
+  function fmtD(x){ try { return new Date(x).toLocaleDateString('en-GB'); } catch(e){ return ''; } }
+  function loadProf(){
+    if (!sbc || !sbUid) return Promise.resolve();
+    return sbc.from('profiles').select('premium_until,is_admin').eq('id', sbUid).maybeSingle().then(function(r){
+      PROF = (r && r.data) || null;
+      try { localStorage.setItem('nrp_prof', JSON.stringify(PROF)); } catch(e){}
+      updPrem();
+    }, function(){});
+  }
+  function updPrem(){
+    var s = document.getElementById('pfPrem'); if (!s) return;
+    s.textContent = isAdm() ? 'Admin 👑' : isPrem() ? 'সক্রিয় · ' + fmtD(PROF.premium_until) + ' পর্যন্ত' : 'ফ্রি';
+    document.getElementById('premBtn').style.display = isPrem() ? 'none' : 'block';
+    document.getElementById('adminBtn').style.display = isAdm() ? 'block' : 'none';
+  }
+  function paywall(why){
+    var u = get('nr_user', null) || {};
+    document.getElementById('pwWhy').textContent = why || 'এই অংশটি প্রিমিয়াম ইউজারদের জন্য';
+    var txt = 'আসসালামু আলাইকুম, আমি Nursing Rise-এর প্রিমিয়াম (৪৯৯ টাকা, ৩ মাস) নিতে চাই।\nনাম: ' + (u.name || '') + '\nনম্বর: ' + (u.number || '');
+    document.getElementById('pwWa').href = 'https://wa.me/8801306627339?text=' + encodeURIComponent(txt);
+    document.getElementById('pwModal').hidden = false;
+  }
+  document.getElementById('pwClose').addEventListener('click', function(){ document.getElementById('pwModal').hidden = true; });
+  document.getElementById('pwModal').addEventListener('click', function(e){ if (e.target === this) this.hidden = true; });
+  document.getElementById('premBtn').addEventListener('click', function(){ paywall('প্রিমিয়াম নিলে সব প্রশ্ন, পিডিএফ, ক্লাস ও এক্সাম ব্যাচ খুলে যাবে'); });
+  document.getElementById('adminBtn').addEventListener('click', function(){ show('adminPanel'); });
+  function markLocks(){
+    var lock = !isPrem();
+    [].forEach.call(document.querySelectorAll('#nbBn,#nbGk,#nbMa,#nbSc,#enClass a.fold:not([data-os])'), function(a){ a.classList.toggle('plock', lock); });
+  }
+  document.addEventListener('click', function(e){
+    if (isPrem() || !e.target.closest) return;
+    var t = e.target.closest('#nbBn,#nbGk,#nbMa,#nbSc,#enClass a.fold:not([data-os])');
+    if (!t) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    paywall('Basic Class-এ শুধু English One Shot ফ্রি, বাকি সব ক্লাস প্রিমিয়ামে');
+  }, true);
+
+  var admT = null;
+  document.getElementById('admQ').addEventListener('input', function(){ clearTimeout(admT); admT = setTimeout(adminLoad, 400); });
+  function adminLoad(){
+    var box = document.getElementById('admList');
+    if (!isAdm() || !sbc) { box.textContent = 'এই পেজ শুধু Admin-এর জন্য'; return; }
+    box.textContent = 'লোড হচ্ছে...';
+    sbc.rpc('admin_list_users', {q: document.getElementById('admQ').value.trim()}).then(function(r){
+      box.textContent = '';
+      if (r.error) { box.textContent = 'লোড হয়নি: ' + r.error.message; return; }
+      var rows = r.data || [];
+      if (!rows.length) { box.textContent = 'কোনো ইউজার পাওয়া যায়নি'; return; }
+      rows.forEach(function(u){
+        var on = u.premium_until && new Date(u.premium_until) > new Date();
+        var d = el('div', 'adm-row');
+        d.appendChild(el('b', '', u.name || '—'));
+        d.appendChild(el('small', '', u.phone + ' · ' + (u.course || '')));
+        d.appendChild(el('div', 'st' + (on ? ' on' : ''), on ? 'প্রিমিয়াম · ' + fmtD(u.premium_until) + ' পর্যন্ত' : 'ফ্রি'));
+        var bt = el('div', 'adm-btns');
+        [['+১ মাস', 1, ''], ['+৩ মাস', 3, ''], ['বাতিল', 0, 'no']].forEach(function(x){
+          var b = el('button', x[2], x[0]); b.type = 'button';
+          b.addEventListener('click', function(){
+            if (x[1] === 0 && !confirm(u.phone + ' এর প্রিমিয়াম বাতিল করবেন?')) return;
+            b.disabled = true;
+            sbc.rpc('admin_set_premium', {uid: u.id, months: x[1]}).then(function(r2){
+              if (r2.error) { alert('হয়নি: ' + r2.error.message); b.disabled = false; return; }
+              adminLoad();
+            });
+          });
+          bt.appendChild(b);
+        });
+        d.appendChild(bt); box.appendChild(d);
+      });
+    });
+  }
+
   var stack = [];
   function show(name){
     var isBack = false;
@@ -1197,6 +1310,8 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     if (name === 'prReport') renderReport();
     if (name === 'prSubj') renderSubj();
     if (name === 'prDash') renderDash();
+    if (name === 'adminPanel') adminLoad();
+    if (name === 'nbClass' || name === 'enClass') markLocks();
     if (name === 'course') { nameIn.value = ''; numIn.value = ''; err.textContent = ''; setCourse(''); toggleDd(false); }
     if (name !== 'qbExam') ebTmStop(); if (name !== 'rgPlay') rgStop(); var ns=document.getElementById('nbSoon'); if(ns) ns.hidden=true; var ps=document.getElementById('pebSoon'); if(ps) ps.hidden=true;
     window.scrollTo(0,0);
@@ -1280,7 +1395,7 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     function fail(msg){ busy = false; loginBtn.disabled = false; document.getElementById('regBtn').disabled = false; err.textContent = msg; }
     function done(user){
       sbUid = user.id;
-      sbPull().then(function(){
+      Promise.all([sbPull(), loadProf()]).then(function(){
         var old = get('nr_user', null);
         set('nr_user', {name:(old && old.name) || n, number:m, pic:(old && old.number === m) ? old.pic : ''});
         if (!get('nr_course', '')) set('nr_course', pickedCourse);
@@ -1301,7 +1416,7 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
   }
   if (sbc) sbc.auth.getSession().then(function(r){
     var ss = r && r.data && r.data.session;
-    if (ss) { sbUid = ss.user.id; sbPull().then(function(){ refreshHeader(); if (current === 'profile') renderProfile(); }); }
+    if (ss) { sbUid = ss.user.id; Promise.all([sbPull(), loadProf()]).then(function(){ refreshHeader(); if (current === 'profile') renderProfile(); }); }
     else if (get('nr_user', null)) { /* local-only legacy data: keep until they log in */ }
   }, function(){});
   setCourse('');
@@ -1332,6 +1447,7 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     var rate = tot ? Math.round(ok*100/tot) : 0;
     document.getElementById('ring').style.setProperty('--p', rate);
     document.getElementById('pfBadge').textContent = get('nr_course','') || '';
+    updPrem();
     var ad = document.getElementById('advice'), at = document.getElementById('adTxt'), ai = document.getElementById('adIco');
     if (!rs.length) { ad.className = 'advice none'; ai.textContent = '💡'; at.textContent = 'পরীক্ষা দিলে এখানে তোমার জন্য পরামর্শ দেখা যাবে।'; }
     else if (rate <= 50) { ad.className = 'advice low'; ai.textContent = '📚'; at.textContent = 'নার্সিং এ চান্স পেতে আরও প্রস্তুতি প্রয়োজন।'; }
@@ -1456,7 +1572,8 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     setTitle(document.getElementById('qbYTitle'), s.l, 'প্রশ্নব্যাংক');
     var list = document.getElementById('qbYearList'); list.textContent = '';
     s.y.forEach(function(y, idx){
-      list.appendChild(folder(GRAD[idx % GRAD.length], y.y, '', function(){ if (qbSt.mode === 'qbpdf') { openReaderRaw(y.q, s.l, y.y); return; } openExam(k, y.y); }));
+      var lk = !isPrem() && (qbSt.mode === 'qbpdf' ? idx >= 2 : idx >= 1);
+      list.appendChild(folder(GRAD[idx % GRAD.length], y.y, lk ? '🔒' : '', function(){ if (lk) { paywall(qbSt.mode === 'qbpdf' ? 'প্রিমিয়াম পিডিএফে প্রতিটি বিষয়ের প্রথম ২টি ফ্রি' : 'প্রশ্নব্যাংকে প্রতিটি বিষয়ের প্রথম ৫টি প্রশ্ন ফ্রি'); return; } if (qbSt.mode === 'qbpdf') { openReaderRaw(y.q, s.l, y.y); return; } openExam(k, y.y); }));
     });
     show('qbYears');
   }
@@ -1487,7 +1604,9 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     var list = document.getElementById('qbYearList'); list.textContent = '';
     var yn = document.getElementById('qbYNote'); yn.hidden = true;
     QB[K.data].forEach(function(c, idx){
-      var fl = folder(GRAD[idx % GRAD.length], c.t, (c.q && c.q.length) ? '' : 'শীঘ্রই আসছে', function(){
+      var lkc = qbSt.pdf && !isPrem() && idx >= 2 && c.q && c.q.length;
+      var fl = folder(GRAD[idx % GRAD.length], c.t, (c.q && c.q.length) ? (lkc ? '🔒' : '') : 'শীঘ্রই আসছে', function(){
+        if (lkc) { paywall('প্রিমিয়াম পিডিএফে প্রতিটি বিষয়ের প্রথম ২টি ফ্রি'); return; }
         if (qbSt.pdf && c.q && c.q.length) { openReader(c, kind); return; }
         if (!c.q || !c.q.length) {
           yn.textContent = c.t + ' এর প্রশ্ন শীঘ্রই যুক্ত হবে'; yn.hidden = false;
@@ -1519,7 +1638,17 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     qbSt.subj = k; qbSt.year = yr;
     var s = findSubj(k), y = s.y.filter(function(x){ return x.y === yr; })[0];
     qbSt.limit = 0;
-    renderExam(y.q, s.l, yr, 'qbYears', s.l + ' · ' + yr, function(){ openExam(k, yr); }, '← সালের তালিকায় ফিরে যান');
+    var qi = y.q, more = false;
+    if (!isPrem()) {
+      if (s.y[0] !== y) { paywall('প্রশ্নব্যাংকে প্রতিটি বিষয়ের প্রথম ৫টি প্রশ্ন ফ্রি'); return; }
+      qi = y.q.slice(0, 5); more = y.q.length > 5;
+    }
+    renderExam(qi, s.l, yr, 'qbYears', s.l + ' · ' + yr, function(){ openExam(k, yr); }, '← সালের তালিকায় ফিরে যান');
+    if (more) {
+      var pl = el('div', 'qb-note', '🔒 বাকি প্রশ্ন দেখতে প্রিমিয়াম নিন (৪৯৯ টাকা · ৩ মাস)');
+      pl.style.cursor = 'pointer'; pl.addEventListener('click', function(){ paywall('প্রশ্নব্যাংকে প্রতিটি বিষয়ের প্রথম ৫টি প্রশ্ন ফ্রি'); });
+      document.getElementById('qbQs').appendChild(pl);
+    }
   }
   function renderExam(items, hA, hB, backTo, title, againFn, backLabel){
     qbSt.ebKey = null;
@@ -1746,7 +1875,8 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     var list = document.getElementById('spLList'); list.textContent = '';
     G.items.forEach(function(it, idx){
       var n = (SPDF[it[1]] || []).length;
-      list.appendChild(folder(GRAD[idx % GRAD.length], it[0], n ? bn(n) + ' পেজ' : '', function(){ openSpPdf(it[1], it[0]); }));
+      var lks = !isPrem() && idx >= 2;
+      list.appendChild(folder(GRAD[idx % GRAD.length], it[0], lks ? '🔒' : (n ? bn(n) + ' পেজ' : ''), function(){ if (lks) { paywall('প্রিমিয়াম পিডিএফে প্রতিটি বিষয়ের প্রথম ২টি ফ্রি'); return; } openSpPdf(it[1], it[0]); }));
     });
     show('spList');
   }
@@ -2077,8 +2207,8 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     document.querySelector('#pebList .back').setAttribute('data-to', 'pebExams');
     var w = name.split(' '); setTitle(document.getElementById('pebLTitle'), w.slice(0, -1).join(' '), w[w.length - 1]);
     ebExams(g, kind).forEach(function(e, i){
-      var open = ebUnlocked(g, kind, i), f = ebFold(open ? e.badge : '🔒', open ? GRAD[i % 6] : 'g6', (kind === 'paper' || kind === 'subj') ? e.hB : e.hA + ' ' + e.hB, e.sub, function(){
-        if (ebUnlocked(g, kind, i)) ebStart(kind, name, i);
+      var open = ebUnlocked(g, kind, i), f = ebFold((open && (isPrem() || (kind === 'topic' && i < 6))) ? e.badge : '🔒', open ? GRAD[i % 6] : 'g6', (kind === 'paper' || kind === 'subj') ? e.hB : e.hA + ' ' + e.hB, e.sub, function(){
+        if (ebUnlocked(g, kind, i)) { if (!isPrem() && !(kind === 'topic' && i < 6)) paywall('Premium Exam Batch-এর প্রথম রিভিশন টেস্ট পর্যন্ত ফ্রি'); else ebStart(kind, name, i); }
         else { var n = document.getElementById('pebLock'); if (n) { n.hidden = false; n.scrollIntoView({block:'nearest'}); } }
       });
       if (!open) f.style.opacity = '.5';
@@ -2600,10 +2730,13 @@ var ANA={"diploma":{"bn":[["সমার্থক শব্দ","বিরচন
     var key=courseKey();
     document.getElementById('anCourse').textContent=get('nr_course','')||(key==='bsc'?'বিএসসি ইন নার্সিং':'ডিপ্লোমা ইন নার্সিং');
     var list=document.getElementById('anSubjList');list.textContent='';
+    var anFirst=null;
     QB[key].forEach(function(s,idx){
       var d=(ANA[key]||{})[s.k];if(!d)return;
       var q=0;d.forEach(function(t){q+=total(t);});
-      list.appendChild(folder(GRAD[idx%GRAD.length],s.l,'',function(){openAnTopics(key,s);}));
+      if(anFirst===null)anFirst=s.k;
+      var lka=!isPrem()&&s.k!==anFirst;
+      list.appendChild(folder(GRAD[idx%GRAD.length],s.l,lka?'🔒':'',function(){if(lka){paywall('এনালাইসিসে শুধু একটি বিষয় ফ্রি, বাকি সব প্রিমিয়ামে');return;}openAnTopics(key,s);}));
     });
     show('anSubj');
   }
