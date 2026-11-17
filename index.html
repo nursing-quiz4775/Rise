@@ -568,7 +568,7 @@ body{background:var(--dbg)}
 .pw{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:20px}.pw[hidden]{display:none}
 .pw-c{background:#14141d;border:1.5px solid #2b2b3a;border-radius:22px;padding:22px 18px;max-width:380px;width:100%;text-align:center;color:#fff}
 .pw-c h3{margin:0 0 6px;font-size:20px}.pw-c p{margin:6px 0;color:#c9c9d6;line-height:1.5}.pw-price{font-size:32px;font-weight:800;color:#ffd23f;margin:8px 0 2px}
-.pw-wa{display:block;margin-top:14px;padding:13px;border-radius:14px;background:#25d366;color:#04210f;font-weight:700;text-decoration:none}
+.pw-wa{display:block;position:relative;overflow:hidden;margin-top:14px;padding:15px 13px;border-radius:14px;background:#25d366;color:#04210f;font-weight:700;font-size:17px;text-decoration:none;animation:pwPulse 1.6s ease-in-out infinite}.pw-wa::after{content:'';position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:pwShine 2.4s ease-in-out infinite}.pw-wa:active{transform:scale(.97)}@keyframes pwPulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(37,211,102,.55)}50%{transform:scale(1.04);box-shadow:0 0 0 12px rgba(37,211,102,0)}}@keyframes pwShine{0%,40%{left:-60%}100%{left:130%}}@media (prefers-reduced-motion:reduce){.pw-wa,.pw-wa::after{animation:none}}.pw-c,.pw-c h3,.pw-price{font-family:"Noto Sans Bengali","Hind Siliguri",system-ui,sans-serif}.pw-c #pwWhy{white-space:pre-line;font-size:16px;line-height:1.7;color:#e8e8f0;font-weight:500}.pw-price{letter-spacing:.5px}.peb-prem{display:block;width:100%;margin:0 0 14px;padding:13px;border-radius:14px;border:1.5px solid #7a5b00;background:rgba(255,210,63,.08);color:#ffd23f;font:inherit;font-weight:700;font-size:16px;cursor:pointer}.peb-tot{text-align:center;margin:0 0 14px;padding:16px 12px;border-radius:18px;background:linear-gradient(180deg,#1c1c28,#14141d);border:1.5px solid rgba(255,210,63,.45);font-family:"Noto Sans Bengali","Hind Siliguri",system-ui,sans-serif}.peb-tot .a{font-size:clamp(24px,7.2vw,32px);font-weight:800;color:#ffd23f;line-height:1.4}.peb-tot .b{margin-top:4px;font-size:clamp(16px,4.6vw,19px);font-weight:700;color:#fff}#adminPanel h2{color:#fff;margin:6px 0 14px;font-size:clamp(22px,6.4vw,28px);text-align:center}#adminPanel h2 em{color:#ffd23f;font-style:normal}.adm-row,.adm-btns button{font-family:"Noto Sans Bengali","Hind Siliguri",system-ui,sans-serif}.adm-btns button{font-size:16px;font-weight:700;letter-spacing:.3px}
 .pw-x{margin-top:10px;background:none;border:0;color:#a9a9b8;font:inherit;cursor:pointer;padding:8px}
 .adm-row{background:#14141d;border:1.5px solid #2b2b3a;border-radius:16px;padding:12px 14px;margin-top:10px;color:#fff}
 .adm-row b{display:block}.adm-row small{color:#a9a9b8;display:block;margin-top:2px}.adm-row .st{margin-top:6px;font-weight:600}.adm-row .st.on{color:#4ade80}
@@ -714,6 +714,7 @@ body{background:var(--dbg)}
   <div class="wrap">
     <a class="back" href="#" data-to="start"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Back</a>
     <h2>Premium <em>Exam Batch</em></h2>
+    <div id="pebPickPrem"></div>
     <div class="qb-list">
       <a class="fold cl" href="#" id="pebRt"><div class="ico g6">01</div><div class="t">পূর্ণাঙ্গ রুটিন দেখো</div><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
       <a class="fold cl" href="#" id="pebGo"><div class="ico g4">02</div><div class="t">পরীক্ষা দাও</div><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
@@ -1160,7 +1161,7 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     <p id="pwWhy"></p>
     <div class="pw-price">৪৯৯ টাকা</div>
     <p>৩ মাসের প্যাকেজ</p>
-    <a class="pw-wa" id="pwWa" href="#" target="_blank" rel="noopener">WhatsApp-এ যোগাযোগ করুন<br><small>01306627339</small></a>
+    <a class="pw-wa" id="pwWa" href="#" target="_blank" rel="noopener">WhatsApp-এ যোগাযোগ করুন</a>
     <button class="pw-x" type="button" id="pwClose">বন্ধ করুন</button>
   </div>
 </div>
@@ -1236,7 +1237,7 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
   }
   function paywall(why){
     var u = get('nr_user', null) || {};
-    document.getElementById('pwWhy').textContent = why || 'এই অংশটি প্রিমিয়াম ইউজারদের জন্য';
+    document.getElementById('pwWhy').textContent = 'প্রিমিয়াম নিলে এক্সাম ব্যাচ সহ\nসকল পিডিএফ, প্রশ্নব্যাংক ও ক্লাস\nসবকিছু পাওয়া যাবে';
     var txt = 'আসসালামু আলাইকুম, আমি Nursing Rise-এর প্রিমিয়াম (৪৯৯ টাকা, ৩ মাস) নিতে চাই।\nনাম: ' + (u.name || '') + '\nনম্বর: ' + (u.number || '');
     document.getElementById('pwWa').href = 'https://wa.me/8801306627339?text=' + encodeURIComponent(txt);
     document.getElementById('pwModal').hidden = false;
@@ -1311,6 +1312,7 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     if (name === 'prSubj') renderSubj();
     if (name === 'prDash') renderDash();
     if (name === 'adminPanel') adminLoad();
+    if (name === 'pebPick' && typeof ebPickBar === 'function') ebPickBar();
     if (name === 'nbClass' || name === 'enClass') markLocks();
     if (name === 'course') { nameIn.value = ''; numIn.value = ''; err.textContent = ''; setCourse(''); toggleDd(false); }
     if (name !== 'qbExam') ebTmStop(); if (name !== 'rgPlay') rgStop(); var ns=document.getElementById('nbSoon'); if(ns) ns.hidden=true; var ps=document.getElementById('pebSoon'); if(ps) ps.hidden=true;
@@ -2181,6 +2183,16 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     return L;
   }
   var EB_CAT = [['topic','Topic Wise Exam'],['assess','Assessment Test'],['paper','Paper Final'],['subj','Subject Final'],['model','Final Model Test']];
+  function ebPremBar(box){
+    if (isPrem()) return;
+    var b = el('button', 'peb-prem', '👑 প্রিমিয়াম নিন'); b.type = 'button';
+    b.addEventListener('click', function(){ paywall(); });
+    box.appendChild(b);
+  }
+  function ebPickBar(){
+    var box = document.getElementById('pebPickPrem'); if (!box) return;
+    box.textContent = ''; ebPremBar(box);
+  }
   function ebFold(badge, g, title, sub, fn){
     var a = el('a', 'fold cl'); a.href = '#';
     a.appendChild(el('div', 'ico ' + g, badge));
@@ -2190,6 +2202,7 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
   }
   function ebCats(){
     var box = document.getElementById('pebCats'); box.textContent = '';
+    ebPremBar(box);
     EB_CAT.forEach(function(c, i){ box.appendChild(ebFold(ebPad(i + 1), GRAD[i % 6], c[1], '', function(){ ebOpenList(c[0], c[1]); })); });
     show('pebExams');
   }
@@ -2206,19 +2219,22 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     var g = courseKey(), box = document.getElementById('pebLList'); box.textContent = '';
     document.querySelector('#pebList .back').setAttribute('data-to', 'pebExams');
     var w = name.split(' '); setTitle(document.getElementById('pebLTitle'), w.slice(0, -1).join(' '), w[w.length - 1]);
+    ebPremBar(box);
     ebExams(g, kind).forEach(function(e, i){
-      var open = ebUnlocked(g, kind, i), f = ebFold((open && (isPrem() || (kind === 'topic' && i < 6))) ? e.badge : '🔒', open ? GRAD[i % 6] : 'g6', (kind === 'paper' || kind === 'subj') ? e.hB : e.hA + ' ' + e.hB, e.sub, function(){
-        if (ebUnlocked(g, kind, i)) { if (!isPrem() && !(kind === 'topic' && i < 6)) paywall('Premium Exam Batch-এর প্রথম রিভিশন টেস্ট পর্যন্ত ফ্রি'); else ebStart(kind, name, i); }
+      var prem = isPrem(), open = prem && ebUnlocked(g, kind, i), f = ebFold(open ? e.badge : '🔒', open ? GRAD[i % 6] : 'g6', (kind === 'paper' || kind === 'subj') ? e.hB : e.hA + ' ' + e.hB, e.sub, function(){
+        if (!isPrem()) { paywall(); return; }
+        if (ebUnlocked(g, kind, i)) ebStart(kind, name, i);
         else { var n = document.getElementById('pebLock'); if (n) { n.hidden = false; n.scrollIntoView({block:'nearest'}); } }
       });
-      if (!open) f.style.opacity = '.5';
-      else if (get('nr_eb_done', {})[ebKey(g, kind, i)]) f.appendChild(el('span', '', '✅')).style.marginRight = '6px';
+      if (prem && !open) f.style.opacity = '.5';
+      else if (prem && get('nr_eb_done', {})[ebKey(g, kind, i)]) f.appendChild(el('span', '', '✅')).style.marginRight = '6px';
       box.appendChild(f);
     });
-    var lk = el('div', 'qb-note', '🔒 আগের পরীক্ষাটি শেষ করলে এটি আনলক হবে'); lk.id = 'pebLock'; lk.hidden = true; box.appendChild(lk);
+    var lk = el('div', 'qb-note', '🔒 আগের পরীক্ষাটি শেষ করলে এটি আনলক হবে'); lk.id = 'pebLock'; lk.hidden = true; if (isPrem()) box.appendChild(lk);
     if (!quiet) show('pebList');
   }
   function ebStart(kind, name, i){
+    if (!isPrem()) { paywall(); return; }
     var g = courseKey(), e = ebExams(g, kind)[i], fm = kind === 'model';
     var items = ebBuild(e.S(), fm ? g + 'fm' : e.id, e.off || 0);
     qbSt.pre = 'এক্সাম ব্যাচ'; qbSt.limit = 3000;
@@ -2231,6 +2247,9 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
   }
   function ebRoutine(){
     var g = courseKey(), box = document.getElementById('pebRBox'), X = EB_X[g]; box.textContent = '';
+    ebPremBar(box);
+    var tot = String(ebSeq(g).length).replace(/[0-9]/g, function(d){ return '০১২৩৪৫৬৭৮৯'.charAt(+d); });
+    var tb = el('div', 'peb-tot'); tb.appendChild(el('div', 'a', 'মোট পরীক্ষা : ' + tot + ' টি')); tb.appendChild(el('div', 'b', 'প্রতিটি পরীক্ষা হবে ১০০ নম্বরের')); box.appendChild(tb);
     box.appendChild(el('div', 'rt-course', (g === 'bsc' ? 'BSc In NURSING' : 'DIPLOMA & MIDWIFERY') + ' · Presented By : Nursing Rise'));
     for (var d = 1; d <= 50; d++){
       box.appendChild(rtCard('Topic Day ' + ebPad(d), ebLines(ebDay(g, d))));
