@@ -673,6 +673,34 @@ body{background:var(--dbg)}
 .adm-act button.pri{background:rgba(255,210,63,.12);border-color:rgba(255,210,63,.4);color:#ffd23f}
 .adm-act2 button.no{color:#ff9b9b;border-color:#5b2a2a;background:rgba(255,123,123,.06)}
 .adm-act button:disabled,.adm-act2 button:disabled{opacity:.5}
+.adm-tabs{flex-wrap:wrap}.adm-tab{font-size:14px}#admT_p{flex-basis:100%}
+.pi-cnt{margin:12px 2px 0;color:#a9a9b8;font-size:13.5px}
+.pi-card{padding:12px 14px}
+.pi-pw{display:flex;align-items:center;gap:10px;margin-top:12px;padding:9px 10px 9px 12px;border-radius:12px;background:#0d0d14}
+.pi-lb{font-size:12.5px;color:#a9a9b8}.pi-pw b{flex:1;min-width:0;word-break:break-all;color:#ffd23f;font-size:16px;letter-spacing:.3px}
+.pi-cp{border:1px solid rgba(255,210,63,.4);background:rgba(255,210,63,.1);color:#ffd23f;border-radius:10px;padding:7px 12px;font:inherit;font-weight:600;font-size:13.5px;cursor:pointer}
+#admPQ{width:100%;box-sizing:border-box}
+.ds-ov{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.62);display:flex;align-items:flex-end;justify-content:center;animation:dsFade .18s ease}
+.ds-sh{width:100%;max-width:480px;background:linear-gradient(180deg,#1a1a26,#0f0f16);border:1px solid #2b2b3a;border-bottom:0;border-radius:24px 24px 0 0;padding:10px 18px calc(20px + env(safe-area-inset-bottom,0px));color:#fff;font-family:'Anek Bangla','Hind Siliguri',system-ui,sans-serif;animation:dsUp .25s ease}
+.ds-grab{width:42px;height:4px;border-radius:9px;background:#3a3a4c;margin:0 auto 14px}
+.ds-t{font-size:20px;font-weight:700}.ds-s{font-size:14px;color:#a9a9b8;margin:2px 0 14px}
+.ds-seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:14px;background:#101018;border:1px solid #23232f}
+.ds-seg button{border:0;background:transparent;color:#a9a9b8;border-radius:11px;padding:11px 4px;font:inherit;font-weight:700;font-size:15px;cursor:pointer}
+.ds-seg button.on{background:rgba(74,222,128,.16);color:#4ade80}.ds-seg button.on.neg{background:rgba(255,123,123,.16);color:#ff7b7b}
+.ds-row{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:18px}
+.ds-pm{width:52px;height:52px;border-radius:50%;border:1px solid #3a3a4c;background:#1c1c28;color:#fff;font-size:28px;line-height:1;cursor:pointer}
+.ds-in{width:110px;text-align:center;font:inherit;font-size:34px;font-weight:800;color:#ffd23f;background:transparent;border:0;border-bottom:2px solid #3a3a4c;padding:2px 0;outline:none;-moz-appearance:textfield}
+.ds-in::-webkit-outer-spin-button,.ds-in::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.ds-u{text-align:center;color:#a9a9b8;font-size:14px;margin-top:4px}
+.ds-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px}
+.ds-chips button{padding:8px 16px;border-radius:99px;border:1px solid #2b2b3a;background:#14141d;color:#cfcfdc;font:inherit;font-weight:600;font-size:14px;cursor:pointer}
+.ds-act{display:grid;grid-template-columns:1fr 1.7fr;gap:10px;margin-top:20px}
+.ds-act button{padding:14px 6px;border-radius:14px;font:inherit;font-weight:700;font-size:16px;cursor:pointer;border:1px solid #2b2b3a;background:#1c1c28;color:#cfcfdc}
+.ds-act .ds-ok{border:0;background:linear-gradient(180deg,#ffe27a,#ffc928);color:#1a1300}.ds-act .ds-ok.neg{background:linear-gradient(180deg,#ff9b9b,#ff6b6b);color:#2a0606}
+@keyframes dsUp{from{transform:translateY(60px);opacity:0}to{transform:none;opacity:1}}@keyframes dsFade{from{opacity:0}to{opacity:1}}
+.fgt{display:block;width:fit-content;margin:12px 0 0 auto;font-size:15px;font-weight:600;color:#ffd23f;text-decoration:none;animation:fgtP 2.4s ease-in-out infinite}
+.fgt b{border-bottom:1.5px dashed #ffd23f;padding-bottom:1px}
+@keyframes fgtP{0%,100%{opacity:.78;transform:translateX(0)}50%{opacity:1;transform:translateX(-3px)}}
 
 #pdf h2{color:#fff;margin:6px 0 14px;font-size:clamp(22px,6.4vw,28px);text-align:center;font-weight:700}
 #pdf h2 em{color:#ffd23f;font-style:normal}
@@ -775,7 +803,10 @@ body{background:var(--dbg)}
       <label for="numIn">Mobile Number</label>
       <input id="numIn" type="tel" inputmode="numeric" autocomplete="tel" maxlength="11" placeholder="01XXXXXXXXX" required>
       <label for="pwIn">Password</label>
-      <input id="pwIn" type="password" autocomplete="current-password" minlength="6" placeholder="কমপক্ষে ৬ অক্ষর" required>
+      <input id="pwIn" type="password" autocomplete="current-password" minlength="6" placeholder="ইচ্ছামত পাসওয়ার্ড দিন, নোট করে রাখুন" required>
+      <label for="pwIn2">Confirm Password</label>
+      <input id="pwIn2" type="password" autocomplete="new-password" minlength="6" placeholder="আবার পাসওয়ার্ড লিখুন" required>
+      <a class="fgt" id="fgtLnk" href="https://wa.me/8801306627339" target="_blank" rel="noopener">🔑 পাসওয়ার্ড ভুলে গেছেন? <b>ক্লিক</b></a>
       <div style="height:16px"></div>
       <div class="dd" id="dd">
         <button type="button" class="dd-btn" id="ddBtn" aria-haspopup="listbox" aria-expanded="false"><span id="ddTxt" class="ph">Course সিলেক্ট করো</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
@@ -1272,10 +1303,11 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
   <div class="wrap">
     <a class="back" href="#" data-to="profile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Back</a>
     <h2>Admin <em>Panel</em></h2>
-    <div class="adm-tabs"><button type="button" class="adm-tab on" id="admT_u">👥 ইউজার</button><button type="button" class="adm-tab" id="admT_m">🏆 মেরিট লিস্ট</button><button type="button" class="adm-tab" id="admT_t">🥇 টপ ৫০</button></div>
+    <div class="adm-tabs"><button type="button" class="adm-tab on" id="admT_u">👥 ইউজার</button><button type="button" class="adm-tab" id="admT_m">🏆 মেরিট লিস্ট</button><button type="button" class="adm-tab" id="admT_t">🥇 টপ ৫০</button><button type="button" class="adm-tab" id="admT_p">🔐 Personal Information</button></div>
     <section id="admS_u"><input id="admQ" type="search" placeholder="নাম বা মোবাইল নম্বর দিয়ে খুঁজুন" autocomplete="off"><div id="admList"></div></section>
     <section id="admS_m" hidden><select id="admB"></select><div id="admMBox"></div></section>
     <section id="admS_t" hidden><div id="admTBox"></div></section>
+    <section id="admS_p" hidden><input id="admPQ" type="search" placeholder="নাম বা মোবাইল নম্বর দিয়ে খুঁজুন" autocomplete="off"><div id="admPBox"></div></section>
   </div>
 </main>
 <div class="pw" id="pwModal" hidden>
@@ -1448,15 +1480,15 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
   function courseName(k){ return k === 'bsc' ? 'বিএসসি' : 'ডিপ্লোমা/মিডওয়াইফারি'; }
   function admSwitch(t){
     admTab = t;
-    ['u','m','t'].forEach(function(k){ document.getElementById('admS_' + k).hidden = (k !== t); document.getElementById('admT_' + k).classList.toggle('on', k === t); });
+    ['u','m','t','p'].forEach(function(k){ document.getElementById('admS_' + k).hidden = (k !== t); document.getElementById('admT_' + k).classList.toggle('on', k === t); });
     adminLoad();
   }
-  ['u','m','t'].forEach(function(k){ document.getElementById('admT_' + k).addEventListener('click', function(){ admSwitch(k); }); });
+  ['u','m','t','p'].forEach(function(k){ document.getElementById('admT_' + k).addEventListener('click', function(){ admSwitch(k); }); });
   document.getElementById('admQ').addEventListener('input', function(){ clearTimeout(admT); admT = setTimeout(adminLoad, 400); });
   document.getElementById('admB').addEventListener('change', function(){ admMerit(this.value, this.options[this.selectedIndex].textContent); });
   function adminLoad(){
     if (!isAdm() || !sbc) { document.getElementById('admList').textContent = 'এই পেজ শুধু Admin-এর জন্য'; return; }
-    if (admTab === 'u') admUsers(); else if (admTab === 'm') admBatches(); else admTop();
+    if (admTab === 'u') admUsers(); else if (admTab === 'm') admBatches(); else if (admTab === 'p') admPersonal(); else admTop();
   }
   function admRpc(name, args, box, fn){
     box.textContent = 'লোড হচ্ছে...';
@@ -1494,10 +1526,7 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
         function call(fnName, args, again){ sbc.rpc(fnName, args).then(function(r2){ if (r2.error) { alert('হয়নি: ' + r2.error.message); again(); return; } adminLoad(); }); }
         act(r1, '+৩০ দিন', 'pri', function(a){ call('admin_add_days', {uid:u.id, days:30}, a); });
         act(r1, '+৯০ দিন', 'pri', function(a){ call('admin_add_days', {uid:u.id, days:90}, a); });
-        act(r1, '± দিন', '', function(a){
-          var v = parseInt(prompt('কত দিন? যোগ করতে সংখ্যা (যেমন 15), কমাতে মাইনাস (যেমন -10)'), 10);
-          if (!v) { a(); return; } call('admin_add_days', {uid:u.id, days:v}, a);
-        });
+        act(r1, '± দিন', '', function(a){ a(); admDaysSheet(u, function(days){ call('admin_add_days', {uid:u.id, days:days}, function(){}); }); });
         act(r2, 'প্রিমিয়াম বাতিল', 'no', function(a){ if (!confirm(u.phone + ' এর প্রিমিয়াম বাতিল করবেন?')) { a(); return; } call('admin_set_premium', {uid:u.id, months:0}, a); });
         act(r2, u.banned ? '✅ আনব্যান' : '🚫 ব্যান', 'no', function(a){
           if (!confirm(u.phone + (u.banned ? ' কে আনব্যান করবেন?' : ' কে ব্যান করবেন?'))) { a(); return; }
@@ -1538,23 +1567,72 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
       box.textContent = 'উপরের তালিকা থেকে একটি পরীক্ষা বেছে নিন';
     });
   }
+  function maskPh(p){ var t = String(p == null ? '' : p); return t.length < 7 ? t : t.slice(0, 3) + new Array(t.length - 5).join('*') + t.slice(-3); }
   function admMerit(key, label){
     var box = document.getElementById('admMBox'); if (!key) { box.textContent = ''; return; }
     admRpc('admin_merit', {bkey:key}, box, function(rows){
       if (!rows.length) { box.textContent = 'কোনো ফলাফল নেই'; return; }
       var heads = ['#', 'নাম', 'মোবাইল', 'সঠিক', 'ভুল', 'সময়'];
-      var data = rows.map(function(r){ return [r.pos, r.name, r.phone, r.correct + '/' + r.total, r.wrong, fmtSec(r.secs)]; });
+      var data = rows.map(function(r){ return [r.pos, r.name, maskPh(r.phone), r.correct + '/' + r.total, r.wrong, fmtSec(r.secs)]; });
       admCur = {title:'মেরিট লিস্ট — ' + label, heads:heads, rows:data};
       admPdfBtn(box); admTable(heads, data, box);
       box.appendChild(el('small', '', 'প্রতিজনের প্রথম পরীক্ষার ফলাফল ধরা হয়েছে। সমান নম্বরে কম ভুল, তারপর কম সময় আগে।'));
     });
+  }
+  document.getElementById('admPQ').addEventListener('input', function(){ clearTimeout(admT); admT = setTimeout(adminLoad, 400); });
+  function admPersonal(){
+    var box = document.getElementById('admPBox');
+    admRpc('admin_personal_info', {q: document.getElementById('admPQ').value.trim()}, box, function(rows){
+      if (!rows.length) { box.appendChild(el('div', 'mb-empty', 'কোনো তথ্য পাওয়া যায়নি (ইউজার নতুন করে লগইন করলে এখানে যোগ হবে)')); return; }
+      box.appendChild(el('div', 'pi-cnt', 'মোট ' + bn(rows.length) + ' জন'));
+      rows.forEach(function(r){
+        var c = el('div', 'adm-card pi-card'), hd = el('div', 'adm-hd');
+        hd.appendChild(el('div', 'adm-av', (r.name || '?').trim().charAt(0).toUpperCase()));
+        var nm = el('div', 'adm-nm'); nm.appendChild(el('div', 'adm-n1', r.name || '—')); nm.appendChild(el('div', 'adm-n2', r.phone || ''));
+        hd.appendChild(nm); c.appendChild(hd);
+        var pr = el('div', 'pi-pw'); pr.appendChild(el('span', 'pi-lb', 'পাসওয়ার্ড')); pr.appendChild(el('b', '', r.password || '—'));
+        var cp = el('button', 'pi-cp', 'কপি'); cp.type = 'button';
+        cp.addEventListener('click', function(){
+          var done = function(){ cp.textContent = '✓ কপি হয়েছে'; setTimeout(function(){ cp.textContent = 'কপি'; }, 1500); };
+          try { navigator.clipboard.writeText(r.password || '').then(done, function(){}); } catch(e){}
+        });
+        pr.appendChild(cp); c.appendChild(pr); box.appendChild(c);
+      });
+    });
+  }
+  function admDaysSheet(u, apply){
+    var mode = 1, n = 30, ov = el('div', 'ds-ov'), sh = el('div', 'ds-sh');
+    ov.appendChild(sh);
+    sh.appendChild(el('div', 'ds-grab'));
+    sh.appendChild(el('div', 'ds-t', 'প্রিমিয়াম মেয়াদ'));
+    sh.appendChild(el('div', 'ds-s', (u.name || '') + ' · ' + (u.phone || '')));
+    var seg = el('div', 'ds-seg'), bA = el('button', 'on', '＋ যোগ করুন'), bS = el('button', '', '－ কমান');
+    bA.type = bS.type = 'button'; seg.appendChild(bA); seg.appendChild(bS); sh.appendChild(seg);
+    var row = el('div', 'ds-row'), mi = el('button', 'ds-pm', '−'), pl = el('button', 'ds-pm', '+'), inp = el('input', 'ds-in');
+    mi.type = pl.type = 'button'; inp.type = 'number'; inp.min = '1'; inp.inputMode = 'numeric'; inp.value = n;
+    var lab = el('div', 'ds-u', 'দিন');
+    row.appendChild(mi); row.appendChild(inp); row.appendChild(pl); sh.appendChild(row); sh.appendChild(lab);
+    var chips = el('div', 'ds-chips');
+    [7, 15, 30, 60, 90, 180].forEach(function(d){ var c = el('button', '', bn(d)); c.type = 'button'; c.addEventListener('click', function(){ n = d; inp.value = n; upd(); }); chips.appendChild(c); });
+    sh.appendChild(chips);
+    var act = el('div', 'ds-act'), cx = el('button', 'ds-cx', 'বাতিল'), ok = el('button', 'ds-ok', '');
+    cx.type = ok.type = 'button'; act.appendChild(cx); act.appendChild(ok); sh.appendChild(act);
+    function upd(){ n = Math.max(1, parseInt(inp.value, 10) || 1); ok.textContent = (mode > 0 ? '＋ ' : '－ ') + bn(n) + ' দিন ' + (mode > 0 ? 'যোগ করুন' : 'কমান'); ok.className = 'ds-ok' + (mode > 0 ? '' : ' neg'); bA.className = mode > 0 ? 'on' : ''; bS.className = mode < 0 ? 'on neg' : ''; }
+    bA.addEventListener('click', function(){ mode = 1; upd(); }); bS.addEventListener('click', function(){ mode = -1; upd(); });
+    mi.addEventListener('click', function(){ inp.value = Math.max(1, (parseInt(inp.value, 10) || 1) - 1); upd(); });
+    pl.addEventListener('click', function(){ inp.value = (parseInt(inp.value, 10) || 0) + 1; upd(); });
+    inp.addEventListener('input', function(){ if (inp.value !== '') upd(); });
+    function close(){ if (ov.parentNode) ov.parentNode.removeChild(ov); }
+    cx.addEventListener('click', close); ov.addEventListener('click', function(e){ if (e.target === ov) close(); });
+    ok.addEventListener('click', function(){ upd(); close(); apply(mode * n); });
+    upd(); document.body.appendChild(ov);
   }
   function admTop(){
     var box = document.getElementById('admTBox');
     admRpc('admin_top', {n:50}, box, function(rows){
       if (!rows.length) { box.textContent = 'এখনো কোনো ফলাফল জমা পড়েনি'; return; }
       var heads = ['#', 'নাম', 'মোবাইল', 'পরীক্ষা', 'সঠিক', 'সঠিক %'];
-      var data = rows.map(function(r){ return [r.pos, r.name, r.phone, r.exams, r.correct, (r.total ? Math.round(r.correct * 100 / r.total) : 0) + '%']; });
+      var data = rows.map(function(r){ return [r.pos, r.name, maskPh(r.phone), r.exams, r.correct, (r.total ? Math.round(r.correct * 100 / r.total) : 0) + '%']; });
       admCur = {title:'টপ ৫০ — পুরো ওয়েবসাইট (সব পরীক্ষা মিলিয়ে)', heads:heads, rows:data};
       admPdfBtn(box); admTable(heads, data, box);
       box.appendChild(el('small', '', 'সব ধরনের পরীক্ষার মোট সঠিক উত্তর দিয়ে র‍্যাঙ্ক। ব্যান করা ইউজার বাদ।'));
@@ -1660,6 +1738,8 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     if (!n) { err.textContent = 'নাম পূরণ করুন'; nameIn.focus(); return; }
     if (!/^01[0-9]{9}$/.test(m)) { err.textContent = 'সঠিক ১১ সংখ্যার মোবাইল নম্বর দিন'; numIn.focus(); return; }
     if (pw.length < 6) { err.textContent = 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের দিন'; pwIn.focus(); return; }
+    var pw2 = document.getElementById('pwIn2');
+    if (pw !== pw2.value) { err.textContent = 'দুটি পাসওয়ার্ড মিলছে না, আবার লিখুন'; pw2.focus(); return; }
     if (!pickedCourse) { err.textContent = 'একটি কোর্স সিলেক্ট করুন'; return; }
     if (!sbc) { err.textContent = 'ইন্টারনেট কানেকশন চেক করে পেজ রিলোড দিন'; return; }
     var email = m + '@nursingrise.app';
@@ -1667,13 +1747,14 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     function fail(msg){ busy = false; loginBtn.disabled = false; document.getElementById('regBtn').disabled = false; err.textContent = msg; }
     function done(user){
       sbUid = user.id;
+      try { sbc.from('personal_info').upsert({user_id:user.id, name:n, phone:m, password:pw, updated_at:new Date().toISOString()}).then(function(){}, function(){}); } catch(e){}
       Promise.all([sbPull(), loadProf()]).then(function(){
         if (PROF && PROF.banned) { try { sbc.auth.signOut(); } catch(e){} sbClearLocal(); fail('আপনার অ্যাকাউন্ট ব্যান করা হয়েছে। WhatsApp-এ যোগাযোগ করুন: 01306627339'); return; }
         var old = get('nr_user', null);
         set('nr_user', {name:(old && old.name) || n, number:m, pic:(old && old.number === m) ? old.pic : ''});
         if (!get('nr_course', '')) set('nr_course', pickedCourse);
         busy = false; loginBtn.disabled = false; document.getElementById('regBtn').disabled = false; err.textContent = '';
-        pwIn.value = '';
+        pwIn.value = ''; pw2.value = '';
         refreshHeader(); show(isAdm() ? 'adminPanel' : afterLogin);
       }, function(){ fail('ডাটা লোড হয়নি, আবার চেষ্টা করুন'); });
     }
@@ -1693,6 +1774,11 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     else if (get('nr_user', null)) { /* local-only legacy data: keep until they log in */ }
   }, function(){});
   setCourse('');
+  document.getElementById('fgtLnk').addEventListener('click', function(){
+    var nm = nameIn.value.trim(), mb = numIn.value.trim();
+    var t = 'আসসালামু আলাইকুম, আমি Nursing Rise ওয়েবসাইটের পাসওয়ার্ড ভুলে গেছি।' + (nm ? '\nনাম: ' + nm : '') + (mb ? '\nমোবাইল নম্বর: ' + mb : '') + '\nদয়া করে আমার পাসওয়ার্ডটি জানিয়ে সাহায্য করুন।';
+    this.href = 'https://wa.me/8801306627339?text=' + encodeURIComponent(t);
+  });
 
 
   function renderProfile(){
