@@ -220,6 +220,12 @@ input{width:100%;font:inherit;font-size:17px;padding:11px 12px;border:1.5px soli
   #printView .pa{font-size:12px;color:#333;margin-top:2px}
   #printView h2{font-size:16px;margin:16px 0 6px;color:#000;break-before:page}
   #printView .pk{line-height:1.8}
+  #printView h1{font-weight:800;text-align:center}
+  #printView .plogo{display:block;width:56px;height:56px;border-radius:12px;margin:0 auto 6px}
+  #printView .pq,#printView h1,#printView .pm,#printView .plogo{position:relative;z-index:1}
+  #printView .wm{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);display:flex;flex-direction:column;align-items:center;opacity:.08;z-index:0;pointer-events:none;white-space:nowrap;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #printView .wm img{width:230px;height:230px;border-radius:40px}
+  #printView .wm span{font-size:80px;font-weight:800;margin-top:6px;color:#000}
 }
 .rt-course{text-align:center;font-weight:600;color:#ffb4a8;margin-bottom:14px}
 
@@ -673,6 +679,12 @@ body{background:var(--dbg)}
 .adm-act button.pri{background:rgba(255,210,63,.12);border-color:rgba(255,210,63,.4);color:#ffd23f}
 .adm-act2 button.no{color:#ff9b9b;border-color:#5b2a2a;background:rgba(255,123,123,.06)}
 .adm-act button:disabled,.adm-act2 button:disabled{opacity:.5}
+.pwbox{position:relative}.pwbox input{padding-right:50px}
+.pw-eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;background:transparent;color:#9a9aae;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;border-radius:10px}
+.pw-eye svg{width:22px;height:22px}.pw-eye .e-off{display:none}.pw-eye.on{color:#ffd23f}.pw-eye.on .e-on{display:none}.pw-eye.on .e-off{display:block}
+.pi-eye{flex:none;width:34px;height:34px;border:0;background:transparent;color:#9a9aae;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.pi-eye svg{width:21px;height:21px}.pi-eye.on{color:#ffd23f}
+#adminPanel small{display:block;margin:12px 2px 4px;padding:10px 12px;border-radius:12px;background:rgba(255,210,63,.08);border:1px solid rgba(255,210,63,.25);color:#ffe27a;font-size:13.5px;line-height:1.5}
 .adm-tabs{flex-wrap:wrap}.adm-tab{font-size:14px}#admT_p{flex-basis:100%}
 .pi-cnt{margin:12px 2px 0;color:#a9a9b8;font-size:13.5px}
 .pi-card{padding:12px 14px}
@@ -680,6 +692,12 @@ body{background:var(--dbg)}
 .pi-lb{font-size:12.5px;color:#a9a9b8}.pi-pw b{flex:1;min-width:0;word-break:break-all;color:#ffd23f;font-size:16px;letter-spacing:.3px}
 .pi-cp{border:1px solid rgba(255,210,63,.4);background:rgba(255,210,63,.1);color:#ffd23f;border-radius:10px;padding:7px 12px;font:inherit;font-weight:600;font-size:13.5px;cursor:pointer}
 #admPQ{width:100%;box-sizing:border-box}
+.yt-ov{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;padding:12px;animation:dsFade .18s ease}
+.yt-bx{width:100%;max-width:880px;background:#0f0f16;border:1px solid #2b2b3a;border-radius:18px;overflow:hidden;font-family:'Anek Bangla','Hind Siliguri',system-ui,sans-serif}
+.yt-top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px 10px 16px;color:#fff;font-weight:700;font-size:15px}
+.yt-x{width:36px;height:36px;border-radius:50%;border:1px solid #3a3a4c;background:#1c1c28;color:#fff;font-size:16px;cursor:pointer}
+.yt-fr{position:relative;width:100%;aspect-ratio:16/9;background:#000}.yt-fr iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.yt-alt{display:block;text-align:center;padding:11px;color:#ffd23f;font-size:14px;text-decoration:none}
 .ds-ov{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.62);display:flex;align-items:flex-end;justify-content:center;animation:dsFade .18s ease}
 .ds-sh{width:100%;max-width:480px;background:linear-gradient(180deg,#1a1a26,#0f0f16);border:1px solid #2b2b3a;border-bottom:0;border-radius:24px 24px 0 0;padding:10px 18px calc(20px + env(safe-area-inset-bottom,0px));color:#fff;font-family:'Anek Bangla','Hind Siliguri',system-ui,sans-serif;animation:dsUp .25s ease}
 .ds-grab{width:42px;height:4px;border-radius:9px;background:#3a3a4c;margin:0 auto 14px}
@@ -803,9 +821,9 @@ body{background:var(--dbg)}
       <label for="numIn">Mobile Number</label>
       <input id="numIn" type="tel" inputmode="numeric" autocomplete="tel" maxlength="11" placeholder="01XXXXXXXXX" required>
       <label for="pwIn">Password</label>
-      <input id="pwIn" type="password" autocomplete="current-password" minlength="6" placeholder="ইচ্ছামত পাসওয়ার্ড দিন, নোট করে রাখুন" required>
+      <div class="pwbox"><input id="pwIn" type="password" autocomplete="current-password" minlength="6" placeholder="ইচ্ছামত পাসওয়ার্ড দিন, নোট করে রাখুন" required><button type="button" class="pw-eye" data-eye aria-label="পাসওয়ার্ড দেখান"><svg class="e-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><svg class="e-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.9 17.9A10.9 10.9 0 0 1 12 20C5 20 1 12 1 12a18.6 18.6 0 0 1 5.1-5.9M9.9 4.2A9.8 9.8 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.2 3.2M1 1l22 22"/></svg></button></div>
       <label for="pwIn2">Confirm Password</label>
-      <input id="pwIn2" type="password" autocomplete="new-password" minlength="6" placeholder="আবার পাসওয়ার্ড লিখুন" required>
+      <div class="pwbox"><input id="pwIn2" type="password" autocomplete="new-password" minlength="6" placeholder="আবার পাসওয়ার্ড লিখুন" required><button type="button" class="pw-eye" data-eye aria-label="পাসওয়ার্ড দেখান"><svg class="e-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><svg class="e-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.9 17.9A10.9 10.9 0 0 1 12 20C5 20 1 12 1 12a18.6 18.6 0 0 1 5.1-5.9M9.9 4.2A9.8 9.8 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.2 3.2M1 1l22 22"/></svg></button></div>
       <a class="fgt" id="fgtLnk" href="https://wa.me/8801306627339" target="_blank" rel="noopener">🔑 পাসওয়ার্ড ভুলে গেছেন? <b>ক্লিক</b></a>
       <div style="height:16px"></div>
       <div class="dd" id="dd">
@@ -1542,12 +1560,18 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     rows.forEach(function(r){ var x = el('tr'); r.forEach(function(c){ x.appendChild(el('td', '', c == null ? '' : String(c))); }); t.appendChild(x); });
     box.appendChild(t);
   }
+  window.nrLogo = function(){ var l = document.querySelector('link[rel~="icon"]'); return l ? l.href : ''; };
   function admPrint(title, heads, rows){
-    var h = '<!doctype html><html><head><meta charset="utf-8"><title>' + esc(title) + '</title><style>body{font-family:"Noto Sans Bengali","Hind Siliguri",Arial,sans-serif;padding:16px}h1{font-size:18px;margin:0 0 4px}p{margin:0 0 10px;color:#555;font-size:12px}table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid #999;padding:5px 7px;text-align:left}th{background:#eee}</style></head><body><h1>' + esc(title) + '</h1><p>Nursing Rise · ' + new Date().toLocaleDateString('en-GB') + '</p><table><tr>' + heads.map(function(x){ return '<th>' + esc(x) + '</th>'; }).join('') + '</tr>' + rows.map(function(r){ return '<tr>' + r.map(function(c){ return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>'; }).join('') + '</table></body></html>';
+    var lg = window.nrLogo();
+    var css = '@page{margin:14mm}body{font-family:"Noto Sans Bengali","Hind Siliguri",Arial,sans-serif;margin:0;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}.hd{text-align:center;margin-bottom:12px;position:relative;z-index:1}.hd img{width:58px;height:58px;border-radius:12px;display:block;margin:0 auto 6px}.hd h1{font-size:21px;font-weight:800;margin:0;text-align:center}.hd h2{font-size:18px;font-weight:800;margin:4px 0 0;text-align:center}.hd p{margin:4px 0 0;color:#555;font-size:12px}table{border-collapse:collapse;width:100%;font-size:13px;position:relative;z-index:1}th,td{border:1px solid #999;padding:5px 7px;text-align:left}th{background:#eee}.wm{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);display:flex;flex-direction:column;align-items:center;opacity:.08;z-index:0;pointer-events:none;white-space:nowrap}.wm img{width:230px;height:230px;border-radius:40px}.wm span{font-size:80px;font-weight:800;margin-top:6px}';
+    var h = '<!doctype html><html><head><meta charset="utf-8"><title>' + esc(title) + '</title><style>' + css + '</style></head><body>'
+      + '<div class="wm">' + (lg ? '<img src="' + lg + '" alt="">' : '') + '<span>Nursing Rise</span></div>'
+      + '<div class="hd">' + (lg ? '<img src="' + lg + '" alt="">' : '') + '<h1>Nursing Rise</h1><h2>' + esc(title) + '</h2><p>' + new Date().toLocaleDateString('en-GB') + '</p></div>'
+      + '<table><tr>' + heads.map(function(x){ return '<th>' + esc(x) + '</th>'; }).join('') + '</tr>' + rows.map(function(r){ return '<tr>' + r.map(function(c){ return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>'; }).join('') + '</table></body></html>';
     var w = window.open('', '_blank');
     if (!w) { alert('পপআপ ব্লক হয়েছে — ব্রাউজারে পপআপের অনুমতি দিন'); return; }
     w.document.open(); w.document.write(h); w.document.close();
-    setTimeout(function(){ try { w.focus(); w.print(); } catch(e){} }, 600);
+    setTimeout(function(){ try { w.focus(); w.print(); } catch(e){} }, 900);
   }
   function admPdfBtn(box){
     var b = el('button', 'adm-pdf', '📄 PDF ডাউনলোড (প্রিন্ট → Save as PDF)'); b.type = 'button';
@@ -1590,7 +1614,12 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
         hd.appendChild(el('div', 'adm-av', (r.name || '?').trim().charAt(0).toUpperCase()));
         var nm = el('div', 'adm-nm'); nm.appendChild(el('div', 'adm-n1', r.name || '—')); nm.appendChild(el('div', 'adm-n2', r.phone || ''));
         hd.appendChild(nm); c.appendChild(hd);
-        var pr = el('div', 'pi-pw'); pr.appendChild(el('span', 'pi-lb', 'পাসওয়ার্ড')); pr.appendChild(el('b', '', r.password || '—'));
+        var pr = el('div', 'pi-pw'); pr.appendChild(el('span', 'pi-lb', 'পাসওয়ার্ড'));
+        var pv = el('b', '', r.password ? new Array(Math.min(String(r.password).length, 14) + 1).join('•') : '—'), shown = false;
+        var ey = el('button', 'pi-eye', ''); ey.type = 'button'; ey.setAttribute('aria-label', 'পাসওয়ার্ড দেখান');
+        ey.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+        ey.addEventListener('click', function(){ shown = !shown; pv.textContent = shown ? (r.password || '—') : (r.password ? new Array(Math.min(String(r.password).length, 14) + 1).join('•') : '—'); ey.classList.toggle('on', shown); });
+        pr.appendChild(pv); pr.appendChild(ey);
         var cp = el('button', 'pi-cp', 'কপি'); cp.type = 'button';
         cp.addEventListener('click', function(){
           var done = function(){ cp.textContent = '✓ কপি হয়েছে'; setTimeout(function(){ cp.textContent = 'কপি'; }, 1500); };
@@ -1774,6 +1803,53 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     else if (get('nr_user', null)) { /* local-only legacy data: keep until they log in */ }
   }, function(){});
   setCourse('');
+  /* ---- ইউটিউব ভিডিও: সাইটের ভেতরেই চলবে ---- */
+  function ytParse(u){
+    var m = String(u || '').match(/^https?:\/\/(?:www\.|m\.)?(?:youtube\.com|youtu\.be|youtube-nocookie\.com)\/([^?#]*)(\?[^#]*)?/i);
+    if (!m) return null;
+    var path = m[1], q = m[2] || '', id = '', t = '';
+    var tm = q.match(/[?&]t=(\d+)/); if (tm) t = tm[1];
+    var host = String(u).replace(/^https?:\/\/(?:www\.|m\.)?/i, '').split('/')[0].toLowerCase();
+    if (host === 'youtu.be') id = path.split('/')[0];
+    else { var pm = path.match(/^(?:live|embed|shorts|v)\/([\w-]{6,})/); if (pm) id = pm[1]; else { var vm = q.match(/[?&]v=([\w-]{6,})/); if (vm) id = vm[1]; } }
+    return /^[\w-]{6,}$/.test(id) ? {id:id, t:t} : null;
+  }
+  function ytOpen(url){
+    var v = ytParse(url); if (!v) return false;
+    var ov = document.createElement('div'); ov.className = 'yt-ov';
+    var bx = document.createElement('div'); bx.className = 'yt-bx';
+    var top = document.createElement('div'); top.className = 'yt-top';
+    var ttl = document.createElement('span'); ttl.textContent = 'Nursing Rise · ভিডিও ক্লাস';
+    var cl = document.createElement('button'); cl.type = 'button'; cl.className = 'yt-x'; cl.textContent = '✕'; cl.setAttribute('aria-label', 'বন্ধ করুন');
+    top.appendChild(ttl); top.appendChild(cl);
+    var fr = document.createElement('div'); fr.className = 'yt-fr';
+    var ifr = document.createElement('iframe');
+    ifr.src = 'https://www.youtube-nocookie.com/embed/' + v.id + '?autoplay=1&rel=0&modestbranding=1&playsinline=1' + (v.t ? '&start=' + v.t : '');
+    ifr.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture; fullscreen');
+    ifr.setAttribute('allowfullscreen', ''); ifr.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin'); ifr.title = 'Video';
+    fr.appendChild(ifr);
+    var ft = document.createElement('a'); ft.className = 'yt-alt'; ft.href = url; ft.target = '_blank'; ft.rel = 'noopener'; ft.setAttribute('data-yt-skip', '1'); ft.textContent = 'ভিডিও চলছে না? ইউটিউবে খুলুন ↗';
+    bx.appendChild(top); bx.appendChild(fr); bx.appendChild(ft); ov.appendChild(bx); document.body.appendChild(ov);
+    function close(){ document.removeEventListener('keydown', esc2); if (ov.parentNode) ov.parentNode.removeChild(ov); }
+    function esc2(e){ if (e.key === 'Escape') close(); }
+    cl.addEventListener('click', close); ov.addEventListener('click', function(e){ if (e.target === ov) close(); });
+    document.addEventListener('keydown', esc2);
+    return true;
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.hasAttribute('data-yt-skip')) return;
+    var h = a.getAttribute('href') || '';
+    if (!/youtu/i.test(h) || !ytParse(h)) return;
+    e.preventDefault(); e.stopImmediatePropagation(); ytOpen(h);
+  }, true);
+  [].forEach.call(document.querySelectorAll('[data-eye]'), function(b){
+    b.addEventListener('click', function(){
+      var i = b.parentNode.querySelector('input'), show = i.type === 'password';
+      i.type = show ? 'text' : 'password'; b.classList.toggle('on', show);
+      b.setAttribute('aria-label', show ? 'পাসওয়ার্ড লুকান' : 'পাসওয়ার্ড দেখান');
+    });
+  });
   document.getElementById('fgtLnk').addEventListener('click', function(){
     var nm = nameIn.value.trim(), mb = numIn.value.trim();
     var t = 'আসসালামু আলাইকুম, আমি Nursing Rise ওয়েবসাইটের পাসওয়ার্ড ভুলে গেছি।' + (nm ? '\nনাম: ' + nm : '') + (mb ? '\nমোবাইল নম্বর: ' + mb : '') + '\nদয়া করে আমার পাসওয়ার্ডটি জানিয়ে সাহায্য করুন।';
@@ -2450,6 +2526,11 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
   }
   function ebPrint(){
     var pv = document.getElementById('printView'); pv.textContent = '';
+    var lg = window.nrLogo ? window.nrLogo() : '';
+    var wm = el('div', 'wm');
+    if (lg) { var wi = document.createElement('img'); wi.src = lg; wi.alt = ''; wm.appendChild(wi); }
+    wm.appendChild(el('span', '', 'Nursing Rise')); pv.appendChild(wm);
+    if (lg) { var hi = document.createElement('img'); hi.src = lg; hi.alt = ''; hi.className = 'plogo'; pv.appendChild(hi); }
     pv.appendChild(el('h1', '', 'Nursing Rise'));
     pv.appendChild(el('h1', 'ph', qbSt.title));
     pv.appendChild(el('div', 'pm', 'পূর্ণমান: ' + bn(qbSt.items.length) + (qbSt.limit ? ' · সময়: ' + bn(qbSt.limit / 60) + ' মিনিট' : '')));
