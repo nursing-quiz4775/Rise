@@ -1776,6 +1776,7 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     function fail(msg){ busy = false; loginBtn.disabled = false; document.getElementById('regBtn').disabled = false; err.textContent = msg; }
     function done(user){
       sbUid = user.id;
+      claimSession(user.id);
       try { sbc.from('personal_info').upsert({user_id:user.id, name:n, phone:m, password:pw, updated_at:new Date().toISOString()}).then(function(){}, function(){}); } catch(e){}
       Promise.all([sbPull(), loadProf()]).then(function(){
         if (PROF && PROF.banned) { try { sbc.auth.signOut(); } catch(e){} sbClearLocal(); fail('আপনার অ্যাকাউন্ট ব্যান করা হয়েছে। WhatsApp-এ যোগাযোগ করুন: 01306627339'); return; }
@@ -1799,10 +1800,38 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
   }
   if (sbc) sbc.auth.getSession().then(function(r){
     var ss = r && r.data && r.data.session;
-    if (ss) { sbUid = ss.user.id; Promise.all([sbPull(), loadProf()]).then(function(){ if (PROF && PROF.banned) { try { sbc.auth.signOut(); } catch(e){} sbClearLocal(); refreshHeader(); show('home'); alert('আপনার অ্যাকাউন্ট ব্যান করা হয়েছে। WhatsApp-এ যোগাযোগ করুন: 01306627339'); return; } refreshHeader(); if (current === 'profile') renderProfile(); }); }
+    if (ss) { sbUid = ss.user.id; Promise.all([sbPull(), loadProf()]).then(function(){ if (PROF && PROF.banned) { try { sbc.auth.signOut(); } catch(e){} sbClearLocal(); refreshHeader(); show('home'); alert('আপনার অ্যাকাউন্ট ব্যান করা হয়েছে। WhatsApp-এ যোগাযোগ করুন: 01306627339'); return; } refreshHeader(); if (current === 'profile') renderProfile(); if (!NR_SID) { if (!isAdm()) claimSession(sbUid); } else checkSession(); }); }
     else if (get('nr_user', null)) { /* local-only legacy data: keep until they log in */ }
   }, function(){});
   setCourse('');
+  /* ---- এক নম্বর = এক ডিভাইস ---- */
+  var NR_SID = null; try { NR_SID = localStorage.getItem('dev_sid'); } catch(e){}
+  function claimSession(uid){
+    var sid = Date.now().toString(36) + Math.random().toString(36).slice(2, 12);
+    NR_SID = null;
+    try {
+      return sbc.from('device_sessions').upsert({user_id:uid, session_id:sid, updated_at:new Date().toISOString()}).then(function(r){
+        if (r && r.error) return;
+        NR_SID = sid; try { localStorage.setItem('dev_sid', sid); } catch(e){}
+      }, function(){});
+    } catch(e){}
+  }
+  function kickedOut(){
+    try { sbc.auth.signOut(); } catch(e){}
+    sbClearLocal(); NR_SID = null; try { localStorage.removeItem('dev_sid'); } catch(e){}
+    refreshHeader(); show('home');
+    alert('এই নম্বরটি অন্য একটি ডিভাইসে লগিন করা হয়েছে, তাই এই ডিভাইস থেকে লগ আউট হয়ে গেছে।');
+  }
+  function checkSession(){
+    if (!sbc || !sbUid || !NR_SID || isAdm()) return;
+    sbc.from('device_sessions').select('session_id').eq('user_id', sbUid).maybeSingle().then(function(r){
+      if (!r || r.error || !r.data) return;
+      if (r.data.session_id !== NR_SID) kickedOut();
+    }, function(){});
+  }
+  setInterval(checkSession, 15000);
+  document.addEventListener('visibilitychange', function(){ if (!document.hidden) checkSession(); });
+  window.addEventListener('focus', checkSession);
   /* ---- ইউটিউব ভিডিও: সাইটের ভেতরেই চলবে ---- */
   function ytParse(u){
     var m = String(u || '').match(/^https?:\/\/(?:www\.|m\.)?(?:youtube\.com|youtu\.be|youtube-nocookie\.com)\/([^?#]*)(\?[^#]*)?/i);
@@ -1990,7 +2019,7 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     u.pic = ''; set('nr_user', u); renderProfile();
   });
   document.addEventListener('click', function(e){ if (!e.target.closest('#picMenu')) picMenu.hidden = true; });
-  document.getElementById('logoutBtn').addEventListener('click', function(){
+  document.getElementById('logoutBtn').addEventListener('click', function(){ NR_SID = null; try { localStorage.removeItem('dev_sid'); } catch(e){}
     if (sbc) { try { sbc.auth.signOut(); } catch(e){} }
     sbClearLocal(); setCourse('');
     refreshHeader(); show('home');
