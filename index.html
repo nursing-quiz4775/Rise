@@ -692,6 +692,9 @@ body{background:var(--dbg)}
 .pi-lb{font-size:12.5px;color:#a9a9b8}.pi-pw b{flex:1;min-width:0;word-break:break-all;color:#ffd23f;font-size:16px;letter-spacing:.3px}
 .pi-cp{border:1px solid rgba(255,210,63,.4);background:rgba(255,210,63,.1);color:#ffd23f;border-radius:10px;padding:7px 12px;font:inherit;font-weight:600;font-size:13.5px;cursor:pointer}
 #admPQ{width:100%;box-sizing:border-box}
+.peb-tot{font-family:"Poppins","Inter","Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif}
+.peb-tot .a{font-weight:700}.peb-tot .b{font-weight:600}
+.rt-course{margin-bottom:2px}.rt-course.by{margin-bottom:14px}
 .adm-stat{cursor:pointer;transition:transform .12s,box-shadow .12s,border-color .12s}.adm-stat:active{transform:scale(.97)}.adm-stat.act{border-color:#ffd23f!important;box-shadow:0 0 0 2px rgba(255,210,63,.35)}
 .adm-ul .pi-cnt{margin:14px 2px 2px}
 .yt-ov{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;padding:12px;animation:dsFade .18s ease}
@@ -2867,8 +2870,8 @@ var SPDF={"bag":["UklGRt4aAABXRUJQVlA4INIaAADwJgGdASo8A5MEPtForVMoJaSkIFboUQAaCW
     ebPremBar(box);
     var tot = String(ebSeq(g).length).replace(/[0-9]/g, function(d){ return '০১২৩৪৫৬৭৮৯'.charAt(+d); });
     var tb = el('div', 'peb-tot'); tb.appendChild(el('div', 'a', 'মোট পরীক্ষা : ' + tot + ' টি')); tb.appendChild(el('div', 'b', 'প্রতিটি পরীক্ষা হবে ১০০ নম্বরের')); box.appendChild(tb);
-    box.appendChild(el('div', 'rt-course', (g === 'bsc' ? 'BSc In NURSING' : 'DIPLOMA & MIDWIFERY') + ' · Presented By : Nursing Rise'));
-    box.appendChild(rtCard('মানবন্টন (১০০ নম্বর) — Revision · Assessment · Paper Final · Subject Final · Final Model Test', g === 'bsc' ? ['বাংলা - ১৫','ইংরেজি - ২০','জিকে - ১০','মানবিক গুণাবলি - ৫','ম্যাথ - ১০','পদার্থ + রসায়ন + জীব - ৪০'] : ['বাংলা - ২০','ইংরেজি - ২০','জিকে - ১৫','মানবিক গুণাবলি - ৫','ম্যাথ - ১০','বিজ্ঞান - ৩০'], true));
+    box.appendChild(el('div', 'rt-course', g === 'bsc' ? 'BSc In NURSING' : 'DIPLOMA & MIDWIFERY'));
+    box.appendChild(el('div', 'rt-course by', 'Presented By : Nursing Rise'));
     for (var d = 1; d <= 50; d++){
       box.appendChild(rtCard('Topic Day ' + ebPad(d), ebLines(ebDay(g, d))));
       if (d % 5 === 0) box.appendChild(rtCard('REVISION TEST ' + ebPad(d / 5), ['সিলেবাস: Topic Day ' + ebPad(d - 4) + '–' + ebPad(d)], true));
